@@ -1,24 +1,22 @@
 pipeline {
     agent any
+
+    tools {
+        jdk 'JAVA_HOME'
+        maven 'M2_HOME'
+    }
+
     stages {
-        stage('Checkout') {
+        stage('GIT') {
             steps {
-                git url: 'https://github.com/omaima144/maven.git', branch: 'master'
+                git branch: 'master',
+                url: 'https://github.com/omaima144/maven.git'
             }
         }
-        stage('Build') {
+
+        stage ('Compile Stage') {
             steps {
-                sh 'mvn clean package'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo "Déploiement en cours..."
+                sh 'mvn clean compile'
             }
         }
     }
